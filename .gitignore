@@ -1,0 +1,13 @@
+# runtime state, caches, secrets: never committed
+state/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.db
+*.db-*
+*.lock
+*.log
+.env
+secrets.json
+docs/screens/_tmp/

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07090c">
+<link rel="icon" href="data:,">
+<title>News Desk · HarkQuant</title>
+<!-- Thin test wrapper only. In the terminal SPA: include news.css + news.js and call NewsDesk.mount(el). -->
+<link rel="stylesheet" href="news.css">
+<style>html,body{margin:0;height:100%;background:#07090c}#news{height:100vh;height:100dvh}</style>
+</head>
+<body>
+<div id="news"></div>
+<script src="news.js"></script>
+<script>
+  // ?api=http://host:port/api/news to point at another server
+  const api = new URLSearchParams(location.search).get('api') || '/api/news';
+  window.desk = NewsDesk.mount('#news', { api, embedded: false });
+</script>
+</body>
+</html>
