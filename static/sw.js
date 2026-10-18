@@ -1,7 +1,7 @@
 /* HarkQuant Terminal service worker (same pattern as Hark Titans): caches the app shell only (never API data). Network-first so updates load,
    cache fallback so the window still opens when the server is down (it then shows "offline"). */
 "use strict";
-const CACHE = "hqterm-shell-v1";
+const CACHE = "hqterm-shell-v2";
 const SHELL = [
   "/", "/manifest.webmanifest",
   "/assets/app.css", "/assets/core.js", "/assets/tv.js", "/assets/ticker.js", "/assets/views.js", "/assets/app.js", "/news/news.js", "/news/news.css",
@@ -20,7 +20,7 @@ self.addEventListener("fetch", (e) => {
   if (req.method !== "GET") return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
-  const isShell = req.mode === "navigate" || SHELL.includes(url.pathname);
+  const isShell = (req.mode === "navigate" && url.pathname === "/") || SHELL.includes(url.pathname);
   if (!isShell) return;                       // API calls, streams: straight to the network, never cached
   const key = req.mode === "navigate" ? "/" : url.pathname;
   e.respondWith(
