@@ -3,7 +3,7 @@
 Native Android client (Kotlin + Jetpack Compose, Material 3) for the HarkQuant Terminal market/news dashboard.
 Read-only analysis: **the app never places, modifies or cancels orders.**
 
-- Package `com.harkquant.terminal` · versionName 1.0.0 · minSdk 26 · targetSdk/compileSdk 35
+- Package `com.harkquant.terminal` · versionName 1.0.1 · minSdk 26 · targetSdk/compileSdk 35
 - Default server: `https://your-server.example.com` (editable in Settings)
 - All times are shown in **Asia/Karachi (PKT, UTC+05:00)**, independent of the phone's time zone.
 
@@ -24,7 +24,7 @@ interval and retries the stream with backoff (2 s → 60 s). States: LIVE / POLL
 The stream stops when the app is in the background unless headline alerts are on.
 
 ## Themes
-5 layout forms × 4 palettes, specs taken from the web theme pack (`work/themes`): A Pro Terminal (dense, hairline borders, uppercase mono labels, horizontal bias meter), B Glassmorphism (gradient + blurred blobs, translucent cards, floating pill nav, gauge), C Minimal Editorial (serif masthead, rules instead of cards, linear scale), D Cyber HUD (grid background, cut-corner glowing frames, Orbitron, ring gauge), E Mobile App (big rounded cards, greeting header, gauge, tab bar). Default: **17 Mobile App · Onyx Lime**.
+5 layout forms × 4 palettes, specs taken from the web theme pack: A Pro Terminal (dense, hairline borders, uppercase mono labels, horizontal bias meter), B Glassmorphism (gradient + blurred blobs, translucent cards, floating pill nav, gauge), C Minimal Editorial (serif masthead, rules instead of cards, linear scale), D Cyber HUD (grid background, cut-corner glowing frames, Orbitron, ring gauge), E Mobile App (big rounded cards, greeting header, gauge, tab bar). Default: **17 Mobile App · Onyx Lime**.
 
 ## Architecture
 MVVM: `data/` (kotlinx.serialization models, `HqApi` on OkHttp, `Repository` with StateFlows + SSE/polling, `Prefs` DataStore + encrypted token) → `ui/ViewModels.kt` → stateless `*Content` composables in `ui/screens/` (bound in `Routes.kt`). No DI framework (a tiny service locator in `HqApp`).
