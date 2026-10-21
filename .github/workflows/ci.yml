@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    name: pytest (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    env:
+      HQT_NO_NEWS: "1"          # no background news pollers
+      HQT_LIVE_TESTS: "0"       # live-source tests (OKX, Yahoo) stay skipped in CI
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies (without TA-Lib)
+        run: |
+          python -m pip install --upgrade pip
+          grep -viE '^ *ta-lib' requirements.txt > /tmp/requirements-ci.txt
+          pip install -r /tmp/requirements-ci.txt
+
+      - name: Install TA-Lib (optional; indicator tests skip if this fails)
+        continue-on-error: true
+        run: pip install "TA-Lib>=0.6.0"
+
+      - name: Run tests
+        run: python -m pytest -q -rs tests/
