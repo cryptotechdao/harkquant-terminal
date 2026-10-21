@@ -41,6 +41,9 @@ DB_PATH = Path(os.getenv("HQ_NEWS_DB", _cfg.STATE / "news.db"))
 MAX_AGE_H = float(os.getenv("HQ_NEWS_MAX_AGE_H", "72"))
 BROWSER_UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
 BOT_UA = "linux:harkquant.newsdesk:v1.0 (by /u/harkquant)"
+# Some official sources (e.g. BLS) ask for a contact in the User-Agent. Set HQT_CONTACT to your own email/URL.
+CONTACT_UA = "HarkQuant research desk " + os.environ.get(
+    "HQT_CONTACT", "(+https://github.com/cryptotechdao/harkquant-terminal)")
 LEVELS = ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
 RULES_VERSION = "11"   # bump when classify() changes: stored rule-only items are re-scored on start
 
@@ -77,9 +80,9 @@ SOURCES: list[dict] = [
     S("fed_speeches", "Federal Reserve speeches", "https://www.federalreserve.gov/feeds/speeches.xml", 300, 0.9, "official", label="FED", assets=["USD"]),
     S("ecb", "ECB press", "https://www.ecb.europa.eu/rss/press.html", 300, 0.9, "official", label="ECB"),
     S("bls", "BLS latest numbers", "https://www.bls.gov/feed/bls_latest.rss", 120, 1.0, "official", label="BLS", assets=["USD"],
-      ua="HarkQuant research desk contact@example.com"),
+      ua=CONTACT_UA),
     S("bls_empsit", "BLS Employment Situation", "https://www.bls.gov/feed/empsit.rss", 300, 1.0, "official", label="BLS", assets=["USD"],
-      ua="HarkQuant research desk contact@example.com"),
+      ua=CONTACT_UA),
     # --- wires / markets
     S("cnbc_top", "CNBC Top News", "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100003114", 60, 0.85, "wire", label="CNBC"),
     S("cnbc_econ", "CNBC Economy", "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258", 120, 0.85, "wire", label="CNBC"),

@@ -1,6 +1,10 @@
 import math
 
-from hqterm import indicators
+import pytest
+
+pytest.importorskip("talib", reason="TA-Lib is not installed")
+
+from hqterm import indicators  # noqa: E402
 
 
 def bars(n=300):
