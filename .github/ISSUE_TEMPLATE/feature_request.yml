@@ -1,0 +1,32 @@
+name: Feature request
+description: Suggest an idea or improvement for HarkQuant Terminal
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        HarkQuant Terminal is read-only by design: requests for order execution or trading features will be closed.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: What are you trying to do, and what gets in the way today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: How should it work? Mention the view, endpoint or data source involved if you know it.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Contribution
+      options:
+        - label: I would like to work on this myself

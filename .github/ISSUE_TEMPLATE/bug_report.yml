@@ -1,0 +1,55 @@
+name: Bug report
+description: Something in HarkQuant Terminal (backend, web UI or Android app) does not work as expected
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. Please **do not** include API keys, tokens or your server address.
+        Security problems belong in a private report (see SECURITY.md), not here.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - Backend (hqterm)
+        - Web UI / PWA
+        - News Desk / news sources
+        - Android app
+        - Launchers / install scripts
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you see, and what did you expect to see?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Start the server with `python -m hqterm serve`
+        2. Open Market Analysis > Live Volume for XAUUSD
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Server console output, browser console errors, `python -m hqterm check` output or screenshots.
+      render: text
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: "1.0.1 / commit abc1234"
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: "Windows 11, Python 3.12, Edge 130 / Android 14, Pixel 7"
