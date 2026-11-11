@@ -123,10 +123,18 @@ def compute(ind_id: str, bars: list[dict], params: dict | None = None) -> dict:
             cols = [x for x in r.columns if x.startswith("SUPERT_")]
             lines = [dict(name="supertrend", data=_line(df, r[cols[0]]))]
         elif key == "VWAP":
-            r = ta.vwap(h, l, c, v.replace(0, np.nan).fillna(1.0), anchor="D")
+            vv = v.replace(0, np.nan).fillna(1.0)
+            if h.index.tz is not None:
+                # anchor="D" groups by daily Period; on a tz-aware index that
+                # conversion warns it is dropping timezone info. The anchor
+                # only needs the calendar day, so pass tz-naive copies.
+                h, l, c, vv = (s.set_axis(s.index.tz_localize(None)) for s in (h, l, c, vv))
+            r = ta.vwap(h, l, c, vv, anchor="D")
             lines = [dict(name="vwap", data=_line(df, r))]
         elif key == "ICHIMOKU":
-            r, _ = ta.ichimoku(h, l, c, tenkan=p["tenkan"], kijun=p["kijun"], senkou=p["senkou"])
+            # pandas-ta-classic dropped the deprecated (visible, span) tuple
+            # return: ichimoku() now returns the visible DataFrame directly.
+            r = ta.ichimoku(h, l, c, tenkan=p["tenkan"], kijun=p["kijun"], senkou=p["senkou"])
             lines = [dict(name=col.split("_")[0].lower(), data=_line(df, r[col])) for col in r.columns]
         elif key == "DONCHIAN":
             r = ta.donchian(h, l, lower_length=p["lower_length"], upper_length=p["upper_length"])
